@@ -7,10 +7,11 @@ class Posts extends Component {
       posts: []
     }
   }
-  componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/posts/')
-      .then(response => response.json())
-      .then(data => this.setState({posts: data}))
+  async componentDidMount() {
+    let result = await fetch('https://jsonplaceholder.typicode.com/posts/')
+    let jSon = await result.json()
+    this.setState({posts: jSon})
+    console.log(jSon)
   }
 
 
@@ -18,14 +19,13 @@ class Posts extends Component {
     return (
       <div>
         <h1>Posts</h1>
-        <bk/>
         {
           this.state.posts.map(post => (
-          <div key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-          </div>
-        ))
+            <div key={post.id}>
+              <h3>{post.title}</h3>
+              <p>{post.body}</p>
+            </div>
+          ))
         }
       </div>
     )
