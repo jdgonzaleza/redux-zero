@@ -12,27 +12,40 @@ class PostForm extends Component {
   }
 
   onChange(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
   onSubmit(event) {
-    
+    event.preventDefault()
+    const post = {
+      title: this.state.title,
+      body: this.state.body
+    }
+    fetch('https://jsonplaceholder.typicode.com/posts/', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(post)
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
   }
-  
+
   render() {
     return (
       <div>
         <h1>Add Post</h1>
-        <form onSubmit={this.onSumbit}>
+        <form onSubmit={this.onSubmit}>
           <div>
-            <label htmlFor="">Title: </label><br/>
-            <input type="title" name="title" onChange= {this.onChange}value={this.state.title}/>
+            <label htmlFor="">Title: </label><br />
+            <input type="title" name="title" onChange={this.onChange} value={this.state.title} />
           </div>
-          <br/>
+          <br />
           <div>
-            <label htmlFor="">Body: </label><br/>
-            <textarea type="text" onChange= {this.onChange} name="body" value={this.state.body}/>
+            <label htmlFor="">Body: </label><br />
+            <textarea type="text" onChange={this.onChange} name="body" value={this.state.body} />
           </div>
-          <br/>
+          <br />
           <button type="submit">
             Submit
           </button>
